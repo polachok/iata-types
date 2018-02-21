@@ -1,0 +1,8 @@
+[package]
+name = "iata-types"
+version = "0.1.0"
+authors = ["Alexander Polyakov <aleksandr.polyakov@kupibilet.ru>"]
+
+[dependencies]
+serde = "1"
+serde_derive = "1"
