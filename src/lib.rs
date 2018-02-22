@@ -262,6 +262,19 @@ impl FromStr for CityCode {
 #[derive(Debug, Ord, PartialOrd, Eq, PartialEq, Serialize, Deserialize, Hash, Clone)]
 pub struct FlightNumber(u16);
 
+impl FlightNumber {
+    pub fn to_u16(&self) -> u16 {
+        self.0
+    }
+
+    pub fn from_u16(num: u16) -> Result<Self, FlightNumberParseError> {
+        if num >= 1 && num <= 9999 {
+            return Ok(FlightNumber(num))
+        }
+        Err(FlightNumberParseError::InvalidNumber)
+    }
+}
+
 impl fmt::Display for FlightNumber {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         write!(f, "{:04}", self.0)
@@ -299,9 +312,6 @@ impl FromStr for FlightNumber {
     fn from_str(value: &str) -> Result<Self, Self::Err> {
         let num = value.parse()
                 .map_err(|_| FlightNumberParseError::NotANumber)?;
-        if num >= 1 && num <= 9999 {
-            return Ok(FlightNumber(num))
-        }
-        Err(FlightNumberParseError::InvalidNumber)
+        Self::from_u16(num)
     }
 }
