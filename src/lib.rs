@@ -40,8 +40,27 @@ impl AircraftCode {
 
 #[derive(Debug)]
 pub enum AircraftCodeParseError {
-    InvalidLength,
-    InvalidCharacter
+    InvalidLength(usize),
+    InvalidCharacter(char)
+}
+
+impl std::fmt::Display for AircraftCodeParseError {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        match *self {
+            AircraftCodeParseError::InvalidLength(len) => {
+                write!(f, "invalid length: {}, expected 3", len)
+            },
+            AircraftCodeParseError::InvalidCharacter(c) => {
+                write!(f, "invalid character: {}, expected A-Z0-9", c)
+            }
+        }
+    }
+}
+
+impl std::error::Error for AircraftCodeParseError {
+    fn description(&self) -> &str {
+        "aircraft code parsing error"
+    }
 }
 
 impl FromStr for AircraftCode {
@@ -49,15 +68,19 @@ impl FromStr for AircraftCode {
 
     fn from_str(value: &str) -> Result<Self, Self::Err> {
         if value.len() != 3 {
-            return Err(AircraftCodeParseError::InvalidLength);
+            return Err(AircraftCodeParseError::InvalidLength(value.len()));
         }
 
-        if value.bytes().all(|item| item.is_ascii_uppercase() || item.is_ascii_digit()) {
-            let mut bytes = [0; 3];
-            bytes.copy_from_slice(value.as_bytes());
-            return Ok(AircraftCode(bytes))
+        for c in value.chars() {
+            if c.is_ascii_uppercase() || c.is_ascii_digit() {
+                continue;
+            } else {
+                return Err(AircraftCodeParseError::InvalidCharacter(c));
+            }
         }
-        Err(AircraftCodeParseError::InvalidCharacter)
+        let mut bytes = [0; 3];
+        bytes.copy_from_slice(value.as_bytes());
+        Ok(AircraftCode(bytes))
     }
 }
 
@@ -81,8 +104,27 @@ impl AirlineCode {
 
 #[derive(Debug)]
 pub enum AirlineCodeParseError {
-    InvalidLength,
-    InvalidCharacter
+    InvalidLength(usize),
+    InvalidCharacter(char)
+}
+
+impl std::fmt::Display for AirlineCodeParseError {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        match *self {
+            AirlineCodeParseError::InvalidLength(len) => {
+                write!(f, "invalid length: {}, expected 2", len)
+            },
+            AirlineCodeParseError::InvalidCharacter(c) => {
+                write!(f, "invalid character: {}, expected A-Z0-9", c)
+            }
+        }
+    }
+}
+
+impl std::error::Error for AirlineCodeParseError {
+    fn description(&self) -> &str {
+        "airline code parsing error"
+    }
 }
 
 impl FromStr for AirlineCode {
@@ -90,16 +132,19 @@ impl FromStr for AirlineCode {
 
     fn from_str(value: &str) -> Result<Self, Self::Err> {
         if value.len() != 2 {
-            return Err(AirlineCodeParseError::InvalidLength);
+            return Err(AirlineCodeParseError::InvalidLength(value.len()));
         }
 
-        if value.bytes().all(|item| item.is_ascii_uppercase() || item.is_ascii_digit()) {
-            let mut bytes = [0; 2];
-            bytes.copy_from_slice(value.as_bytes());
-            Ok(AirlineCode(bytes))
-        } else {
-            return Err(AirlineCodeParseError::InvalidCharacter)
+        for c in value.chars() {
+            if c.is_ascii_uppercase() || c.is_ascii_digit() {
+                continue;
+            } else {
+                return Err(AirlineCodeParseError::InvalidCharacter(c))
+            }
         }
+        let mut bytes = [0; 2];
+        bytes.copy_from_slice(value.as_bytes());
+        Ok(AirlineCode(bytes))
     }
 }
 
@@ -115,8 +160,27 @@ impl AirportCode {
 
 #[derive(Debug)]
 pub enum AirportCodeParseError {
-    InvalidLength,
-    InvalidCharacter
+    InvalidLength(usize),
+    InvalidCharacter(char)
+}
+
+impl std::fmt::Display for AirportCodeParseError {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        match *self {
+            AirportCodeParseError::InvalidLength(len) => {
+                write!(f, "invalid length: {}, expected 3", len)
+            },
+            AirportCodeParseError::InvalidCharacter(c) => {
+                write!(f, "invalid character: {}, expected A-Z0-9", c)
+            }
+        }
+    }
+}
+
+impl std::error::Error for AirportCodeParseError {
+    fn description(&self) -> &str {
+        "airport code parsing error"
+    }
 }
 
 impl FromStr for AirportCode {
@@ -124,14 +188,18 @@ impl FromStr for AirportCode {
 
     fn from_str(value: &str) -> Result<Self, Self::Err> {
         if value.len() != 3 {
-            return Err(AirportCodeParseError::InvalidLength);
+            return Err(AirportCodeParseError::InvalidLength(value.len()));
         }
-        if value.bytes().all(|c| c.is_ascii_uppercase()) {
-            let mut bytes = [0; 3];
-            bytes.copy_from_slice(value.as_bytes());
-            return Ok(AirportCode(bytes))
+        for c in value.chars() {
+            if c.is_ascii_uppercase() {
+                continue;
+            } else {
+                return Err(AirportCodeParseError::InvalidCharacter(c));
+            }
         }
-        Err(AirportCodeParseError::InvalidCharacter)
+        let mut bytes = [0; 3];
+        bytes.copy_from_slice(value.as_bytes());
+        Ok(AirportCode(bytes))
     }
 }
 
@@ -147,8 +215,27 @@ impl CityCode {
 
 #[derive(Debug)]
 pub enum CityCodeParseError {
-    InvalidLength,
-    InvalidCharacter
+    InvalidLength(usize),
+    InvalidCharacter(char)
+}
+
+impl std::fmt::Display for CityCodeParseError {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        match *self {
+            CityCodeParseError::InvalidLength(len) => {
+                write!(f, "invalid length: {}, expected 3", len)
+            },
+            CityCodeParseError::InvalidCharacter(c) => {
+                write!(f, "invalid character: {}, expected A-Z0-9", c)
+            }
+        }
+    }
+}
+
+impl std::error::Error for CityCodeParseError {
+    fn description(&self) -> &str {
+        "airport code parsing error"
+    }
 }
 
 impl FromStr for CityCode {
@@ -156,14 +243,18 @@ impl FromStr for CityCode {
 
     fn from_str(value: &str) -> Result<Self, Self::Err> {
         if value.len() != 3 {
-            return Err(CityCodeParseError::InvalidLength);
+            return Err(CityCodeParseError::InvalidLength(value.len()));
         }
-        if value.bytes().all(|c| c.is_ascii_uppercase()) {
-            let mut bytes = [0; 3];
-            bytes.copy_from_slice(value.as_bytes());
-            return Ok(CityCode(bytes))
+        for c in value.chars() {
+            if c.is_ascii_uppercase() {
+                continue;
+            } else {
+                return Err(CityCodeParseError::InvalidCharacter(c));
+            }
         }
-        Err(CityCodeParseError::InvalidCharacter)
+        let mut bytes = [0; 3];
+        bytes.copy_from_slice(value.as_bytes());
+        Ok(CityCode(bytes))
     }
 }
 
@@ -177,9 +268,29 @@ impl fmt::Display for FlightNumber {
     }
 }
 
+#[derive(Debug)]
 pub enum FlightNumberParseError {
     NotANumber,
     InvalidNumber,
+}
+
+impl std::fmt::Display for FlightNumberParseError {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        match *self {
+            FlightNumberParseError::NotANumber => {
+                write!(f, "not a number")
+            },
+            FlightNumberParseError::InvalidNumber => {
+                write!(f, "invalid number, expect 0001 to 9999")
+            }
+        }
+    }
+}
+
+impl std::error::Error for FlightNumberParseError {
+    fn description(&self) -> &str {
+        "airport code parsing error"
+    }
 }
 
 impl FromStr for FlightNumber {
