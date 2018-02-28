@@ -29,7 +29,7 @@ macro_rules! gen_display {
 }
 
 /// IATA aircraft type code
-#[derive(Debug, Ord, PartialOrd, Eq, PartialEq, Serialize, Deserialize, Hash, Clone)]
+#[derive(Debug, Ord, PartialOrd, Eq, PartialEq, Serialize, Deserialize, Hash, Clone, Copy)]
 pub struct AircraftCode([u8; 3]);
 
 gen_display!(AircraftCode);
@@ -101,7 +101,7 @@ impl FromStr for AircraftCode {
 // The codes issued to date comply with IATA Resolution 762, which provides for only two characters.
 /// IATA airline designators are used to identify an airline for commercial purposes in reservations,
 /// timetables, tickets, tariffs, air waybills and in telecommunications.
-#[derive(Debug, Ord, PartialOrd, Eq, PartialEq, Serialize, Deserialize, Hash, Clone)]
+#[derive(Debug, Ord, PartialOrd, Eq, PartialEq, Serialize, Deserialize, Hash, Clone, Copy)]
 pub struct AirlineCode([u8; 2]);
 
 gen_display!(AirlineCode);
@@ -166,7 +166,7 @@ impl FromStr for AirlineCode {
 }
 
 /// 3 letter airport code
-#[derive(Debug, Ord, PartialOrd, Eq, PartialEq, Serialize, Deserialize, Hash, Clone)]
+#[derive(Debug, Ord, PartialOrd, Eq, PartialEq, Serialize, Deserialize, Hash, Clone, Copy)]
 pub struct AirportCode([u8; 3]);
 
 gen_display!(AirportCode);
@@ -230,7 +230,7 @@ impl FromStr for AirportCode {
 }
 
 /// 3 letter location code
-#[derive(Debug, Ord, PartialOrd, Eq, PartialEq, Serialize, Deserialize, Hash, Clone)]
+#[derive(Debug, Ord, PartialOrd, Eq, PartialEq, Serialize, Deserialize, Hash, Clone, Copy)]
 pub struct CityCode([u8; 3]);
 
 gen_display!(CityCode);
@@ -293,7 +293,7 @@ impl FromStr for CityCode {
 }
 
 /// Numeric part of flight designator
-#[derive(Debug, Ord, PartialOrd, Eq, PartialEq, Serialize, Deserialize, Hash, Clone)]
+#[derive(Debug, Ord, PartialOrd, Eq, PartialEq, Serialize, Deserialize, Hash, Clone, Copy)]
 pub struct FlightNumber(u16);
 
 impl FlightNumber {
