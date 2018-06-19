@@ -18,9 +18,15 @@ macro_rules! gen_as {
     }
 }
 
-macro_rules! gen_display {
+macro_rules! gen_display_debug {
     ($t: ty) => {
         impl fmt::Display for $t {
+            fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+                write!(f, "{}", self.as_str())
+            }
+        }
+
+        impl fmt::Debug for $t {
             fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
                 write!(f, "{}", self.as_str())
             }
@@ -29,10 +35,10 @@ macro_rules! gen_display {
 }
 
 /// IATA aircraft type code
-#[derive(Debug, Ord, PartialOrd, Eq, PartialEq, Serialize, Deserialize, Hash, Clone, Copy)]
+#[derive(Ord, PartialOrd, Eq, PartialEq, Serialize, Deserialize, Hash, Clone, Copy)]
 pub struct AircraftCode([u8; 3]);
 
-gen_display!(AircraftCode);
+gen_display_debug!(AircraftCode);
 
 impl AircraftCode {
     gen_as!();
@@ -101,10 +107,10 @@ impl FromStr for AircraftCode {
 // The codes issued to date comply with IATA Resolution 762, which provides for only two characters.
 /// IATA airline designators are used to identify an airline for commercial purposes in reservations,
 /// timetables, tickets, tariffs, air waybills and in telecommunications.
-#[derive(Debug, Ord, PartialOrd, Eq, PartialEq, Serialize, Deserialize, Hash, Clone, Copy)]
+#[derive(Ord, PartialOrd, Eq, PartialEq, Serialize, Deserialize, Hash, Clone, Copy)]
 pub struct AirlineCode([u8; 2]);
 
-gen_display!(AirlineCode);
+gen_display_debug!(AirlineCode);
 
 impl AirlineCode {
     gen_as!();
@@ -166,10 +172,10 @@ impl FromStr for AirlineCode {
 }
 
 /// 3 letter airport code
-#[derive(Debug, Ord, PartialOrd, Eq, PartialEq, Serialize, Deserialize, Hash, Clone, Copy)]
+#[derive(Ord, PartialOrd, Eq, PartialEq, Serialize, Deserialize, Hash, Clone, Copy)]
 pub struct AirportCode([u8; 3]);
 
-gen_display!(AirportCode);
+gen_display_debug!(AirportCode);
 
 impl AirportCode {
     gen_as!();
@@ -230,10 +236,10 @@ impl FromStr for AirportCode {
 }
 
 /// 3 letter location code
-#[derive(Debug, Ord, PartialOrd, Eq, PartialEq, Serialize, Deserialize, Hash, Clone, Copy)]
+#[derive(Ord, PartialOrd, Eq, PartialEq, Serialize, Deserialize, Hash, Clone, Copy)]
 pub struct CityCode([u8; 3]);
 
-gen_display!(CityCode);
+gen_display_debug!(CityCode);
 
 impl CityCode {
     gen_as!();
