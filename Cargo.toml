@@ -1,6 +1,6 @@
 [package]
 name = "iata-types"
-version = "0.1.3"
+version = "0.1.4"
 authors = ["Alexander Polyakov <aleksandr.polyakov@kupibilet.ru>"]
 description = "a set of types for representing aviation terms"
 license = "MIT"
